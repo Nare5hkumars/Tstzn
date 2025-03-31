@@ -11,19 +11,20 @@ from bot.telegram.clients import initialize_clients
 loop = get_event_loop()
 
 async def get_chat_id_and_messages():
-    """Fetch chat ID and the last 10 messages from a group or channel."""
-    chat_username = "@t.me/+WS7_EUx46RRkMTll"  # Replace with your group/channel username
+    """Fetch chat ID and last 10 messages from a private channel using UserBot."""
+    chat_id = -1002197394981  # Replace with your actual private channel ID
+
     try:
-        chat = await StreamBot.get_chat(chat_username)
-        chat_id = chat.id
-        LOGGER.info(f"✅ Chat ID for {chat_username}: {chat_id}")
+        chat = await UserBot.get_chat(chat_id)  # ✅ Use UserBot, NOT StreamBot
+        LOGGER.info(f"✅ Private Channel ID: {chat.id}")
 
         LOGGER.info(f"📥 Fetching last 10 messages from {chat_id}...")
-        async for message in StreamBot.get_chat_history(chat_id, limit=10):
+        async for message in UserBot.get_chat_history(chat_id, limit=10):
             LOGGER.info(f"{message.date} - {message.text}")
 
     except Exception as e:
-        LOGGER.error(f"❌ Error fetching chat info: {e}")
+        LOGGER.error(f"❌ Error fetching messages: {e}")
+
 
 async def start_services():
     """Initialize the bot and fetch chat details."""
