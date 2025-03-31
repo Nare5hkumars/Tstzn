@@ -14,7 +14,7 @@ loop = get_event_loop()
 app= Client("my_bot")
 
 with app:
-    chat_id="@t.me/+WS7_EUx46RRkMTll"
+    chat_id="-1002231458694"
     from message in app.get_chat_history(chat_id=chat_id, limit=10):
         print(message.text)
 async def start_services():
