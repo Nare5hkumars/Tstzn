@@ -61,8 +61,10 @@ async def start_services():
 async def stop_clients():
     """Stop the bot clients when exiting."""
     await StreamBot.stop()
-    if Telegram.SESSION_STRING:
-        await app.stop()
+
+    if len(Telegram.SESSION_STRING) != 0 and UserBot.is_connected:
+        await UserBot.stop()
+
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()
