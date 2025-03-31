@@ -7,6 +7,9 @@ from bot.config import Telegram
 from bot.server import web_server
 from bot.telegram import StreamBot, UserBot
 from bot.telegram.clients import initialize_clients
+import asyncio
+from pyrogram import Client
+from bot.config import Telegram
 
 loop = get_event_loop()
 
@@ -24,6 +27,16 @@ async def get_chat_id_and_messages():
 
     except Exception as e:
         LOGGER.error(f"❌ Error fetching messages: {e}")
+
+app = Client("userbot", Telegram.API_ID, Telegram.API_HASH, session_string=Telegram.SESSION_STRING)
+
+async def fetch_chat_messages():
+    """ Fetch the latest messages from a private channel. """
+    chat_id = Telegram.PRIVATE_CHANNEL_ID
+
+    async with app:
+        async for message in app.get_chat_history(chat_id, limit=10):
+            print(f"{message.date} - {message.text}")
 
 
 async def start_services():
