@@ -2,7 +2,7 @@ from asyncio import get_event_loop, sleep as asleep, gather
 from traceback import format_exc
 from aiohttp import web
 from pyrogram import idle
-
+from pyrogram import Client
 from surftg import version, LOGGER
 from surftg.config import Telegram
 from surftg.server import web_server
@@ -11,7 +11,12 @@ from surftg.bot.clients import initialize_clients
 
 loop = get_event_loop()
 
+app= Client("my_bot")
 
+with app:
+    chat_id="@t.me/+WS7_EUx46RRkMTll"
+    from message in app.get_chat_history(chat_id=chat_id, limit=10):
+        print(message.text)
 async def start_services():
     """Start the bot and web server."""
     LOGGER.info(f'Initializing Surf-TG v-{version}')
